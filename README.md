@@ -1,2 +1,3 @@
 Node js chat<br>
-Install packages sudo npm install
+Install packages<br>
+<b>$ sudo npm install<b>
