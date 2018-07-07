@@ -1,3 +1,3 @@
-Node js chat<br>
+<b>Node js chat</b><br><br>
 Install packages<br>
 $ sudo npm install
