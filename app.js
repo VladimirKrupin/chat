@@ -1,13 +1,16 @@
 var express = require('express');
-var path = require('path');
 var http = require('http');
-var config = require('config');
-var log = require('libs/log')(module);
-
+var config = require('./config');
+var log = require('libs/log');
 var app = express();
 
 http.createServer(app).listen(config.get('port'), function () {
-    log.info('Express server listening on port ' + config.get('port'));
+
+    log.info('\x1b[36m%s\x1b[0m', 'Success!');
+    log.info('Express server listening on port \x1b[35m%s\x1b[0m' , config.get('port'));
+    log.info('Request http://localhost:3000 in your browser');
+    log.error('error');
+
 });
 
 //Middleware

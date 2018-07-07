@@ -1,20 +1,33 @@
-var winston = require('winston');
-var ENV = process.env.NODE_ENV;
+const { format, transports } = require('winston');
+const { combine, timestamp, label, printf } = format;
 
-// can be much more flexible than that O_o
-function getLogger(module) {
+const myFormat = printf(info => {
+    return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
+});
 
-    var path = module.filename.split('/').slice(-2).join('/');
+const winston = require('winston');
 
-    return new winston.Logger({
-        transports: [
-            new winston.transports.Console({
-                colorize: true,
-                level: (ENV == 'development') ? 'debug' : 'error',
-                label: path
-            })
-        ]
-    });
-}
+const log = winston.createLogger({
+    format: combine(
+        winston.format.colorize(),
+        label({ label: '!' }),
+        timestamp(),
+        format.splat(),
+        format.simple(),
+        myFormat,
+    ),
+    transports: [
+        new winston.transports.Console({
+            level: 'info',
+        }),
+        new winston.transports.File({
+            filename: 'logs/error.log',
+            level: 'error',
+        })
+    ],
+    exceptionHandlers: [
+        new transports.File({ filename: 'logs/exceptions.log' })
+    ]
+});
 
-module.exports = getLogger;
+module.exports = log;
