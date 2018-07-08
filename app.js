@@ -1,7 +1,7 @@
 var express = require('express');
 var http = require('http');
 var config = require('./config');
-var log = require('./libs/log');
+var log = require('./libs/log')(module);
 var app = express();
 
 http.createServer(app).listen(config.get('port'), function () {
